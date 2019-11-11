@@ -56,7 +56,15 @@ router.put('/:id', async (req, res) => {
         new: true
     })
     .catch(() => res.status(404).send('Nenhuma tarefa com este ID foi encontrada.'));
-    
+
+    res.send(tarefa);
+});
+
+router.delete('/:id', async (req, res) => {
+    const tarefa = await Tarefa.findByIdAndRemove(req.params.id);
+
+    if(!tarefa) res.status(404).send('Nenhuma tarefa com este ID foi encontrada.');
+
     res.send(tarefa);
 });
 
