@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const Joi = require('joi');
 const router = express.Router();
 
 const Tarefa = mongoose.model('Tarefa', new mongoose.Schema({
@@ -15,7 +16,15 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    
+
 });
+
+function validaTarefa(tarefa) {
+    const schema = {
+      titulo: Joi.string().min(3).required()
+    };
+  
+    return Joi.validate(tarefa, schema);
+  }
 
 module.exports = router;
