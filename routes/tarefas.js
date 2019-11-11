@@ -72,7 +72,7 @@ function validaTarefa(tarefa) {
     const schema = {
       titulo: Joi.string().min(3).required(),
       descricao: Joi.string(),
-      prioridade: Joi.number()
+      prioridade: Joi.number().integer().min(1)
     };
   
     return Joi.validate(tarefa, schema);
