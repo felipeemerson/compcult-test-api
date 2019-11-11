@@ -15,6 +15,14 @@ router.get('/', async (req, res) => {
     res.send(tarefas);
 });
 
+router.get('/:id', async (req, res) => {
+    const tarefa = await Tarefa.findById(req.params.id);
+
+    if(!tarefa) res.status(404).send('Tarefa com este ID não foi encontrada.');
+
+    res.send(tarefa);
+});
+
 router.post('/', async (req, res) => {
     const { error } = validaTarefa(req.body);
 
