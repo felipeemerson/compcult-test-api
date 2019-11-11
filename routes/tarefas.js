@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     const tarefa = await Tarefa.findById(req.params.id);
 
-    if(!tarefa) res.status(404).send('Tarefa com este ID não foi encontrada.');
+    if(!tarefa) res.status(404).send('Nenhuma tarefa com este ID foi encontrada.');
 
     res.send(tarefa);
 });
@@ -42,6 +42,22 @@ router.post('/', async (req, res) => {
         for (field in ex.errors)
             console.log(ex.errors[field].message);
     }
+});
+
+router.put('/:id', async (req, res) => {
+    const { error } = validaTarefa(req.body);
+
+    if(error) return res.status(400).send(error.details[0].message);
+
+    const tarefa = await Tarefa.findByIdAndUpdate(req.params.id, {
+        titulo: req.body.titulo,
+        descricao: req.body.descricao,
+        prioridade: req.body.prioridade,
+        new: true
+    })
+    .catch(() => res.status(404).send('Nenhuma tarefa com este ID foi encontrada.'));
+    
+    res.send(tarefa);
 });
 
 function validaTarefa(tarefa) {
