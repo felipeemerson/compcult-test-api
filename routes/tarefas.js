@@ -5,8 +5,8 @@ const router = express.Router();
 
 const Tarefa = mongoose.model('Tarefa', new mongoose.Schema({
     titulo: {type: String, required: true},
-    descricao: String,
-    prioridade: Number
+    descricao: {type: String, required: true},
+    prioridade: {type: Number, required: true}
 }));
 
 router.get('/', async (req, res) => {
@@ -71,8 +71,8 @@ router.delete('/:id', async (req, res) => {
 function validaTarefa(tarefa) {
     const schema = {
       titulo: Joi.string().min(3).required(),
-      descricao: Joi.string(),
-      prioridade: Joi.number().integer().min(1)
+      descricao: Joi.string().min(10).required(),
+      prioridade: Joi.number().integer().min(1).required()
     };
   
     return Joi.validate(tarefa, schema);
